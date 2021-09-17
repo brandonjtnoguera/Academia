@@ -15,7 +15,7 @@ public class StackActivity {
         bString.push("0");
         bString.push("1");
         bString.push("0");
-        
+
         if(hasSameAmountOfZerosAndOnes(bString)) System.out.println("works");
 
         System.out.println(getPercentageOfZeroesInStack(bString) + "%"); // should be 50
