@@ -1,0 +1,45 @@
+
+
+You will need to complete multiple activities (with multiple due dates) for this assignment.  Follow the provided instructions carefully.
+
+Grade: 5 Points | Due: Friday, 9/24/21 (11:59p.m.)
+
+    Research the Internet and share an "article" (e.g., article, tutorial, video of your choice) that is relevant to this week's course topic
+        In several paragraphs, highlights what you have learned.  Include its link (URL) so that others can check it out
+    Implement the following four Java methods so that you can compare and contrast iterative vs. recursive algorithms -
+
+// Display a portion of an array backward for those elements between the last and first.  
+
+// a is an integer array; first is the element you will need to end with since you are "walking" backward, and last is the element that you need to begin at. 
+
+// This should be a non recursive routine.
+
+        void displayBackward(int[] a, int first, int last);
+        void displayBackwardRecursively(int[], int, int);  // Implement your logic using recursion instead; same requirements as the displayBackward method
+        Create two additional methods of your choice, iterative vs. recursive, such that you could manipulate a string (instead of an array, for example) 
+    Include a driver to test these four methods
+
+To earn credit for this assignment -
+
+    [1 Point] Discuss your research effort as specified
+    [2 Points] Reply to this message and attach your complete assignment (Java files and/or write-up)  
+    [1 Point] Discuss your learning experience 
+        What did you learn?
+        What challenges did you encounter, if any?
+        Anything else you would like to share?
+    [1 Point] In addition, ask a probing question (or two) for fellow classmates to consider.
+
+Extra Credit: 2 Points |  Complete by: Sunday, 9/26/21 (11:59p.m.)
+
+Review your classmates' submissions, and then generate meaningful discussions in one or more of the following ways:
+
+        Respond to a probing question
+        Share an insight
+        Offer and/and support an opinion
+        Validate an idea with your own experience
+        Make a suggestion
+        Share a relevant article or video and justify your recommendation (don't just include a link)
+        Expand on your colleague's post
+        You can earn up to 0.5 point for each post for a max of 4 posts 
+
+The purpose of this assignment is for the class to learn from each other.  Put forth your best effort and you will be able to earn full credit for the assignment. 
