@@ -85,6 +85,7 @@ public class NotationStackTest {
 
 	@Test
 	public void testSize() {
+
 		assertEquals(3, stringS.size());
 		stringS.push(d);
 		assertEquals(4, stringS.size());
@@ -121,17 +122,30 @@ public class NotationStackTest {
 	
 	@Test
 	public void testToString() {
+
+
+
 		assertEquals("abc", stringS.toString());
 		stringS.push(d);
 		assertEquals("abcd", stringS.toString());
 		stringS.push(e);
 		assertEquals("abcde", stringS.toString());
+
 	}
 
-	// GARY | @Test
+	// STUDENT TEST
+	/* GARY|*/ //@Test
 	public void testToStringStudent() {
+
+		NotationStack<String> lol = new NotationStack<>(2);
+		lol.push("1");
+		System.out.println(lol.size());
+		System.out.println(lol.isEmpty());
+		lol.push("2");
+		System.out.println(lol.toString());
+		System.out.println(lol.size());
 		//Use the doubleQ for student tests
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 	
 	@Test

@@ -5,17 +5,22 @@ import java.util.ArrayList;
  * @author Brandon Tenorio
  */
 public class NotationQueue<T> implements QueueInterface<T>{
-    private Node<T> first, last;
-
-    private static class Node<T>{
-        @SuppressWarnings("FieldMayBeFinal")    // It's not final, you can change it at anytime, the warning is just annoying
+    private static class QueueNode<T>{
         private T data;
-        private Node<T> next;
+        private QueueNode<T> next;
 
-        public Node(T data){
+        public QueueNode(T data){
             this.data = data;
         }
     }
+
+    private QueueNode<T> first, last;
+    private int initialSize, currentSize;
+    
+    public NotationQueue(int initialSize){
+        this.initialSize = initialSize;
+    }
+
     public boolean isEmpty() {
         return false;
     }
