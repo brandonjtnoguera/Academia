@@ -10,55 +10,57 @@ public class Notation {
      * @throws InvalidNotationFormatException if the expression is invalid
      */
     public static double evaluatePostfixExpression(String postfixExpr) throws InvalidNotationFormatException{
-        NotationStack<Double> valueStack = new NotationStack<>(postfixExpr.length());
+        NotationStack<Double>  valueStackOfDoubles = new NotationStack<>(postfixExpr.length());
+        NotationStack<Integer>  valueStackOfInts = new NotationStack<>(postfixExpr.length());
 
         int i = 0;
         while(i < postfixExpr.length()){
             char nextChar = postfixExpr.charAt(i);
             switch (nextChar){
                 case '0','1','2','3','4','5','6','7','8','9' -> {
-                    double value = Character.digit(nextChar, 10);
-                    valueStack.push(value);
+                    int value = Character.digit(nextChar, 10);
+                     valueStackOfInts.push(value);
                 }
                 case '+' -> {
-                    double operandOne = valueStack.pop();
-                    if(valueStack.isEmpty()) throw new InvalidNotationFormatException();
-                    double operandTwo = valueStack.pop();
+                    int operandOne =  valueStackOfInts.pop();
+                    if( valueStackOfInts.isEmpty()) throw new InvalidNotationFormatException();
+                    int operandTwo =  valueStackOfInts.pop();
                     double result = operandTwo + operandOne;
-                    valueStack.push(result);
+                     valueStackOfDoubles.push(result);
                 }
                 case '-' -> {
-                    double operandOne = valueStack.pop();
-                    if(valueStack.isEmpty()) throw new InvalidNotationFormatException();
-                    double operandTwo = valueStack.pop();
+                    int operandOne =  valueStackOfInts.pop();
+                    if( valueStackOfInts.isEmpty()) throw new InvalidNotationFormatException();
+                    int operandTwo =  valueStackOfInts.pop();
                     double result = operandTwo - operandOne;
-                    valueStack.push(result);
+                     valueStackOfDoubles.push(result);
                 }
                 case '*' -> {
-                    double operandOne = valueStack.pop();
-                    if(valueStack.isEmpty()) throw new InvalidNotationFormatException();
-                    double operandTwo = valueStack.pop();
+                    int operandOne =  valueStackOfInts.pop();
+                    if( valueStackOfInts.isEmpty()) throw new InvalidNotationFormatException();
+                    int operandTwo =  valueStackOfInts.pop();
                     double result = operandTwo * operandOne;
-                    valueStack.push(result);
+                     valueStackOfDoubles.push(result);
                 }
                 case '/' -> {
-                    double operandOne = valueStack.pop();
-                    if(valueStack.isEmpty()) throw new InvalidNotationFormatException();
-                    double operandTwo = valueStack.pop();
+                    int operandOne =  valueStackOfInts.pop();
+                    if( valueStackOfInts.isEmpty()) throw new InvalidNotationFormatException();
+                    int operandTwo =  valueStackOfInts.pop();
                     double result = operandTwo / operandOne;
-                    valueStack.push(result);
+                     valueStackOfDoubles.push(result);
                 }
                 case '^' -> {
-                    double operandOne = valueStack.pop();
-                    if(valueStack.isEmpty()) throw new InvalidNotationFormatException();
-                    double operandTwo = valueStack.pop();
+                    int operandOne =  valueStackOfInts.pop();
+                    if( valueStackOfInts.isEmpty()) throw new InvalidNotationFormatException();
+                    int operandTwo =  valueStackOfInts.pop();
                     double result = Math.pow(operandTwo,operandOne);
-                    valueStack.push(result);
+                     valueStackOfDoubles.push(result);
                 }
             }
             i++;
         }
-        return valueStack.top();
+        if(valueStackOfDoubles.isEmpty()) throw new InvalidNotationFormatException();
+        return valueStackOfDoubles.top();
     }
 
     /**
