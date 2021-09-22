@@ -172,6 +172,7 @@ public class Notation {
         }
 
         if(!operatorStack.isEmpty()) throw new InvalidNotationFormatException();
+        else if(postfix.toString().contains("(") || postfix.toString().contains(")")) throw new InvalidNotationFormatException();
         return postfix.toString();
     }
 
