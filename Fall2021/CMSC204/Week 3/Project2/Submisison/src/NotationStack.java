@@ -53,7 +53,7 @@ public class NotationStack<T> implements StackInterface<T>{
      * @return true if full, false otherwise
      */
     public boolean isFull() {
-        return size > capacity;
+        return size >= capacity;
     }
 
     /**
@@ -75,6 +75,7 @@ public class NotationStack<T> implements StackInterface<T>{
      * @throws StackUnderflowException if stack is empty
      */
     public T top() throws StackUnderflowException {
+        if(isEmpty()) throw new StackUnderflowException();
         return top.getData();
     }
 
