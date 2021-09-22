@@ -53,7 +53,7 @@ public class NotationStack<T> implements StackInterface<T>{
      * @return true if full, false otherwise
      */
     public boolean isFull() {
-        return size == capacity;
+        return size > capacity;
     }
 
     /**

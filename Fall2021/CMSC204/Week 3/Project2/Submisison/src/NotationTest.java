@@ -9,6 +9,7 @@ public class NotationTest {
 	public String complexInfix = "(3+(((5*7)-(((8/2)-1)*4))*6))";
 	public String complexPostfix =  "357*82/1-4*-6*+";
 	public String easyInfix = "(5+4)";
+
 	public String easyPostfix = "54+";
 	public String intermediateInfix = "((3*(5+4))+2)";
 	public String intermediatePostfix = "354+*2+";
