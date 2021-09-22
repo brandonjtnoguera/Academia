@@ -8,7 +8,7 @@ public class QueueUnderflowException extends RuntimeException{
      * No-arg constructor
      */
     public QueueUnderflowException(){
-        this("Stack is empty");
+        this("Queue is empty");
     }
 
     /**
