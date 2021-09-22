@@ -75,7 +75,10 @@ public class Notation {
         while(i < postfix.length()){
             String nextChar = String.valueOf(postfix.charAt(i));
             switch(nextChar){
-                case "0","1","2","3","4","5","6","7","8","9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"-> operandStack.push(nextChar);
+                case "0","1","2","3","4","5","6","7","8","9",
+                        "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
+                        "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+                        -> operandStack.push(nextChar);
                 case "+" -> {
                     String firstVal = operandStack.pop();
                     if(operandStack.isEmpty()) throw new InvalidNotationFormatException();
@@ -136,7 +139,10 @@ public class Notation {
             char nextChar = infix.charAt(i);
             switch (nextChar) {
                 // If next char is an alphanumeric character
-                case '0','1','2','3','4','5','6','7','8','9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'-> postfix.append(nextChar);
+                case '0','1','2','3','4','5','6','7','8','9',
+                        'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+                        'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
+                        -> postfix.append(nextChar);
                 case '^', '(' -> operatorStack.push(nextChar);
                 case '+', '-', '*', '/' -> {
                     while (!operatorStack.isEmpty() && precedenceOf(nextChar) <= precedenceOf(operatorStack.top())) {
