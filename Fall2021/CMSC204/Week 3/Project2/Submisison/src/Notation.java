@@ -12,6 +12,7 @@ public class Notation {
     public static double evaluatePostfixExpression(String postfixExpr) throws InvalidNotationFormatException{
         NotationStack<Double>  valueStackOfDoubles = new NotationStack<>(postfixExpr.length());
         NotationStack<Integer>  valueStackOfInts = new NotationStack<>(postfixExpr.length());
+        convertInfixToPostfix(postfixExpr);
 
         int i = 0;
         while(i < postfixExpr.length()){
@@ -73,10 +74,14 @@ public class Notation {
         NotationStack<String> operandStack = new NotationStack<>(postfix.length());
         StringBuilder infix = new StringBuilder();
 
+        // FIX THIS ONE, POSTFIX A B DE*+ SHOULD BE INFIX = A + B * DE, BUT IT'S RETURNING *whitespace**whitespace*(B+(D*E))
+        // PROBLEM HAS TO DO W WHITE SPACES AND HOW THEYRE INPUTTED BACK INTO THE INFIX STRING
+        // USE https://www.web4college.com/converters/infix-to-postfix-prefix.php TO TRY AND FIX THIS SHIT GOOD LUCK
         int i = 0;
         while(i < postfix.length()){
             String nextChar = String.valueOf(postfix.charAt(i));
             switch(nextChar){
+                case " " -> operandStack.push(nextChar);
                 case "0","1","2","3","4","5","6","7","8","9",
                         "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
                         "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
@@ -140,8 +145,8 @@ public class Notation {
         while(i < infix.length()){
             char nextChar = infix.charAt(i);
             switch (nextChar) {
-                // If next char is an alphanumeric character
-                case '0','1','2','3','4','5','6','7','8','9',
+                // If next char is an alphanumeric character OR A SPACE
+                case ' ', '0','1','2','3','4','5','6','7','8','9',
                         'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
                         'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
                         -> postfix.append(nextChar);
