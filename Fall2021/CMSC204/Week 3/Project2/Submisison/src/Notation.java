@@ -24,8 +24,8 @@ public class Notation {
                     case '-' -> stack.push(operatorTwo - operatorOne);
                     case '*' -> stack.push(operatorTwo * operatorOne);
                     case '/' -> stack.push(operatorTwo / operatorOne);
-                    case '^' -> stack.push((int)Math.pow(operatorTwo, operatorOne));
                     case '%' -> stack.push(operatorTwo % operatorOne);
+                    case '^' -> stack.push((int)Math.pow(operatorTwo, operatorOne));
                 }
             }
         }
@@ -95,7 +95,7 @@ public class Notation {
     private static int precedenceOf(char c){
         return switch (c) {
             case '+', '-' -> 0; // Low precedence
-            case '*', '/' -> 1;
+            case '*', '/', '%' -> 1;
             case '^' -> 2;  // High precedence
             default -> -1;
         };
