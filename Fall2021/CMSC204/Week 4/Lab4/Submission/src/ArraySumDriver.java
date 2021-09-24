@@ -22,6 +22,10 @@ public class ArraySumDriver {
 		
 		sum = sumOfArray(myArray, 5);
 		System.out.println(sum);
+//		for(int x :  myArray){
+//			System.out.println(x);
+//		}
+
 	}
 	
 	/**
@@ -31,8 +35,12 @@ public class ArraySumDriver {
 	 * @return sum of array values
 	 */
 	public static int sumOfArray(Integer[] arr, int num) {
+		if(num == 0) return 0;
+		return (sumOfArray(arr,num - 1) + arr[num - 1]);
 		// Implement your code here
-		return -999;  // PLACE HOLDER
+		// add from [5-0]
+
+		//return -999;  // PLACE HOLDER
 	}
 
 }
