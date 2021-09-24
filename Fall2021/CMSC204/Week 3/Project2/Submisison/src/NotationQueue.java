@@ -32,7 +32,7 @@ public class NotationQueue<T> implements QueueInterface<T>{
     }
 
     private Node first, last;
-    public final int capacity;
+    private final int capacity;
     private int size;
 
     /**

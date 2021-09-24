@@ -29,7 +29,7 @@ public class NotationStack<T> implements StackInterface<T>{
 
     private Node top;
     private int size;
-    public final int capacity;
+    private final int capacity;
 
     /**
      * Parameterized Constructor

@@ -10,58 +10,26 @@ public class Notation {
      * @throws InvalidNotationFormatException if the expression is invalid
      */
     public static double evaluatePostfixExpression(String postfixExpr) throws InvalidNotationFormatException{
-        NotationStack<Double>  valueStackOfDoubles = new NotationStack<>(postfixExpr.length());
-        NotationStack<Integer>  valueStackOfInts = new NotationStack<>(postfixExpr.length());
-        convertInfixToPostfix(postfixExpr);
+        NotationStack<Integer> stack = new NotationStack<>(postfixExpr.length());
 
-        int i = 0;
-        while(i < postfixExpr.length()){
+        for(int i =0; i < postfixExpr.length(); i++){
             char nextChar = postfixExpr.charAt(i);
-            switch (nextChar){
-                case '0','1','2','3','4','5','6','7','8','9' -> {
-                    int value = Character.digit(nextChar, 10);
-                     valueStackOfInts.push(value);
-                }
-                case '+' -> {
-                    int operandOne =  valueStackOfInts.pop();
-                    if( valueStackOfInts.isEmpty()) throw new InvalidNotationFormatException();
-                    int operandTwo =  valueStackOfInts.pop();
-                    double result = operandTwo + operandOne;
-                     valueStackOfDoubles.push(result);
-                }
-                case '-' -> {
-                    int operandOne =  valueStackOfInts.pop();
-                    if( valueStackOfInts.isEmpty()) throw new InvalidNotationFormatException();
-                    int operandTwo =  valueStackOfInts.pop();
-                    double result = operandTwo - operandOne;
-                     valueStackOfDoubles.push(result);
-                }
-                case '*' -> {
-                    int operandOne =  valueStackOfInts.pop();
-                    if( valueStackOfInts.isEmpty()) throw new InvalidNotationFormatException();
-                    int operandTwo =  valueStackOfInts.pop();
-                    double result = operandTwo * operandOne;
-                     valueStackOfDoubles.push(result);
-                }
-                case '/' -> {
-                    int operandOne =  valueStackOfInts.pop();
-                    if( valueStackOfInts.isEmpty()) throw new InvalidNotationFormatException();
-                    int operandTwo =  valueStackOfInts.pop();
-                    double result = operandTwo / operandOne;
-                     valueStackOfDoubles.push(result);
-                }
-                case '^' -> {
-                    int operandOne =  valueStackOfInts.pop();
-                    if( valueStackOfInts.isEmpty()) throw new InvalidNotationFormatException();
-                    int operandTwo =  valueStackOfInts.pop();
-                    double result = Math.pow(operandTwo,operandOne);
-                     valueStackOfDoubles.push(result);
+            if(nextChar == ' ') continue;
+            else if(Character.isDigit(nextChar)) stack.push(nextChar - '0');
+            else{
+                int operatorOne = stack.pop();
+                int operatorTwo = stack.pop();
+                switch (nextChar){
+                    case '+' -> stack.push(operatorTwo + operatorOne);
+                    case '-' -> stack.push(operatorTwo - operatorOne);
+                    case '*' -> stack.push(operatorTwo * operatorOne);
+                    case '/' -> stack.push(operatorTwo / operatorOne);
+                    case '^' -> stack.push((int)Math.pow(operatorTwo, operatorOne));
+                    case '%' -> stack.push(operatorTwo % operatorOne);
                 }
             }
-            i++;
         }
-        if(valueStackOfDoubles.isEmpty()) throw new InvalidNotationFormatException();
-        return valueStackOfDoubles.top();
+        return stack.pop();
     }
 
     /**
@@ -71,63 +39,18 @@ public class Notation {
      * @throws InvalidNotationFormatException thrown if postfix expression is invalid
      */
     public static String convertPostfixToInfix(String postfix) throws InvalidNotationFormatException{
-        NotationStack<String> operandStack = new NotationStack<>(postfix.length());
-        StringBuilder infix = new StringBuilder();
-
-        // FIX THIS ONE, POSTFIX A B DE*+ SHOULD BE INFIX = A + B * DE, BUT IT'S RETURNING *whitespace**whitespace*(B+(D*E))
-        // PROBLEM HAS TO DO W WHITE SPACES AND HOW THEYRE INPUTTED BACK INTO THE INFIX STRING
-        // USE https://www.web4college.com/converters/infix-to-postfix-prefix.php TO TRY AND FIX THIS SHIT GOOD LUCK
-        int i = 0;
-        while(i < postfix.length()){
-            String nextChar = String.valueOf(postfix.charAt(i));
-            switch(nextChar){
-                case " " -> operandStack.push(nextChar);
-                case "0","1","2","3","4","5","6","7","8","9",
-                        "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
-                        "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
-                        -> operandStack.push(nextChar);
-                case "+" -> {
-                    String firstVal = operandStack.pop();
-                    if(operandStack.isEmpty()) throw new InvalidNotationFormatException();
-                    String secondVal = operandStack.pop();
-                    String result = "(" + secondVal + "+" + firstVal + ")";
-                    operandStack.push(result);
-                }
-                case "-" -> {
-                    String firstVal = operandStack.pop();
-                    if(operandStack.isEmpty()) throw new InvalidNotationFormatException();
-                    String secondVal = operandStack.pop();
-                    String result = "(" + secondVal + "-" + firstVal + ")";
-                    operandStack.push(result);
-                }
-                case "*" -> {
-                    String firstVal = operandStack.pop();
-                    if(operandStack.isEmpty()) throw new InvalidNotationFormatException();
-                    String secondVal = operandStack.pop();
-                    String result = "(" + secondVal + "*" + firstVal + ")";
-                    operandStack.push(result);
-                }
-                case "/" -> {
-                    String firstVal = operandStack.pop();
-                    if(operandStack.isEmpty()) throw new InvalidNotationFormatException();
-                    String secondVal = operandStack.pop();
-                    String result = "(" + secondVal + "/" + firstVal + ")";
-                    operandStack.push(result);
-                }
-                case "^" -> {
-                    String firstVal = operandStack.pop();
-                    if(operandStack.isEmpty()) throw new InvalidNotationFormatException();
-                    String secondVal = operandStack.pop();
-                    String result = "(" + secondVal + "^" + firstVal + ")";
-                    operandStack.push(result);
-                }
+        NotationStack<String> stack = new NotationStack<>(postfix.length());
+        for(int i = 0; i < postfix.length(); i++){
+            if(isOperand(postfix.charAt(i))) stack.push(postfix.charAt(i) + "");
+            else{
+                String operandOne = stack.pop();
+                if(stack.isEmpty()) throw new InvalidNotationFormatException();
+                String operandTwo = stack.pop();
+                stack.push("(" + operandTwo + postfix.charAt(i) + operandOne + ")");
             }
-            i++;
         }
-
-        infix.append(operandStack.pop());
-
-        return infix.toString();
+        if(stack.size() > 1) throw new InvalidNotationFormatException();
+        return stack.pop();
     }
 
     /**
@@ -137,54 +60,35 @@ public class Notation {
      * @throws InvalidNotationFormatException if notation is invalid
      */
     public static String convertInfixToPostfix(String infix) throws InvalidNotationFormatException{
-        NotationStack<Character> operatorStack = new NotationStack<>(infix.length());
+        NotationStack<Character> stack = new NotationStack<>(infix.length());
         StringBuilder postfix = new StringBuilder();
-        char topOperator;
 
-        int i =0;
-        while(i < infix.length()){
+        for(int i = 0; i < infix.length(); i++){
             char nextChar = infix.charAt(i);
-            switch (nextChar) {
-                // If next char is an alphanumeric character OR A SPACE
-                case ' ', '0','1','2','3','4','5','6','7','8','9',
-                        'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-                        'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
-                        -> postfix.append(nextChar);
-                case '^', '(' -> operatorStack.push(nextChar);
-                case '+', '-', '*', '/' -> {
-                    while (!operatorStack.isEmpty() && precedenceOf(nextChar) <= precedenceOf(operatorStack.top())) {
-                        postfix.append(operatorStack.top());
-                        operatorStack.pop();
-                    }
-                    operatorStack.push(nextChar);
-                }
-                case ')' -> {
-                    topOperator = operatorStack.pop();
-                    while (topOperator != ')') {
-                        if(topOperator == '(') break;
-                        postfix.append(topOperator);
-                        if(operatorStack.isEmpty()) throw new InvalidNotationFormatException();
-                        else topOperator = operatorStack.pop();
-
-                    }
-                }
-                default -> {
+            if(Character.isLetterOrDigit(nextChar)) postfix.append(nextChar);   // If letter or number is found
+            else if(nextChar == '(') stack.push(nextChar);  // If opening parentheses is found
+            else if(nextChar == ')'){   // If closing parentheses is found
+                while(!stack.isEmpty() && stack.top() != '('){
+                    postfix.append(stack.pop());
                 }
             }
-            i++;
+            else{   // If we get something like "*/" or "+*"
+                while(!stack.isEmpty() && precedenceOf(nextChar) <= precedenceOf(stack.top())){
+                    postfix.append(stack.pop());
+                }
+                stack.push(nextChar);
+            }
         }
-        while (!operatorStack.isEmpty()){
-            topOperator = operatorStack.pop();
-            postfix.append(topOperator);
+        while(!stack.isEmpty()){
+            if(stack.top() == '(') throw new InvalidNotationFormatException();
+            postfix.append(stack.pop());
         }
-
-        if(!operatorStack.isEmpty()) throw new InvalidNotationFormatException();
-        else if(postfix.toString().contains("(") || postfix.toString().contains(")")) throw new InvalidNotationFormatException();
+        if(!stack.isEmpty()) throw new InvalidNotationFormatException();
         return postfix.toString();
     }
 
     /**
-     * Determines the precedence of operators in postix, infix, and prefix expressions
+     * Determines the precedence of operators in postfix, infix, and prefix expressions
      * @param c the operator whose precedence will be determined
      * @return 0 for addition and subtraction, 1 for multiplication and division, 2 for exponentiation, -1 if it's not an operator
      */
@@ -195,5 +99,14 @@ public class Notation {
             case '^' -> 2;  // High precedence
             default -> -1;
         };
+    }
+
+    /**
+     * Determines if char c is an operand
+     * @param c character to be determined operand or not
+     * @return true if it's an operand, false otherwise
+     */
+    private static boolean isOperand(char c){
+        return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
     }
 }

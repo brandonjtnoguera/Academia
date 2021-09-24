@@ -50,7 +50,7 @@ public class NotationSTUDENT_Test {
         evaluationAnswers.add("14.0");
         evaluationAnswers.add("22.0");
         evaluationAnswers.add("90.0");
-        evaluationAnswers.add("2.3333333333333335");
+        evaluationAnswers.add("2.0");
         evaluationAnswers.add("26.0");
         evaluationAnswers.add("-27.0");
         evaluationAnswers.add("141.0");
