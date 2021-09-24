@@ -34,9 +34,14 @@ public class ArraySumDriver {
 	 * @param num index of array to sum all previous index values (including num)
 	 * @return sum of array values
 	 */
-	public static int sumOfArray(Integer[] arr, int num) {
-		if(num == 0) return 0;
-		return (sumOfArray(arr,num - 1) + arr[num - 1]);
+	public static <T extends Number> int sumOfArray(T[] arr, int num) {
+		int sum = 0;
+		if(num == 1) return (int)arr[num-1];
+		else sum = (int)arr[num - 1] + sumOfArray(arr, num - 1);
+		return sum;
+
+//		if(num == 0) return 0;
+//		return (sumOfArray(arr,num - 1) + arr[num - 1]);
 		// Implement your code here
 		// add from [5-0]
 
