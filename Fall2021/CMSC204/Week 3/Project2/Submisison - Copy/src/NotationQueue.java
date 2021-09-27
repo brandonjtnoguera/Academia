@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 
 /**
@@ -113,21 +114,22 @@ public class NotationQueue<T> implements QueueInterface<T>{
      *  Returns the string representation of the elements in the Queue,
      * 	the beginning of the string is the front of the queue
      * 	@return string representation of the Queue with elements
+     * @return
      */
     @Override
     public String toString(){
-        StringBuilder stringQueue = new StringBuilder();
+        String stringQueue = "";
 
         Node head = first;
         int i = 0;
         while(i < size()){
-            stringQueue.append(peek());
+            stringQueue += peek();
             first = first.getNext();
             i++;
         }
         first = head;
 
-        return stringQueue.toString();
+        return stringQueue;
     }
 
     /**

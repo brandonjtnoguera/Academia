@@ -18,7 +18,6 @@ public class Notation {
             else if(Character.isDigit(nextChar)) stack.push(nextChar - '0');
             else{
                 int operatorOne = stack.pop();
-                if(stack.isEmpty()) throw new InvalidNotationFormatException();
                 int operatorTwo = stack.pop();
                 switch (nextChar){
                     case '+' -> stack.push(operatorTwo + operatorOne);
@@ -42,7 +41,7 @@ public class Notation {
     public static String convertPostfixToInfix(String postfix) throws InvalidNotationFormatException{
         NotationStack<String> stack = new NotationStack<>(postfix.length());
         for(int i = 0; i < postfix.length(); i++){
-            if(isOperand(postfix.charAt(i)) || Character.isDigit(postfix.charAt(i))) stack.push(postfix.charAt(i) + "");
+            if(isOperand(postfix.charAt(i))) stack.push(postfix.charAt(i) + "");
             else{
                 String operandOne = stack.pop();
                 if(stack.isEmpty()) throw new InvalidNotationFormatException();
@@ -61,35 +60,83 @@ public class Notation {
      * @throws InvalidNotationFormatException if notation is invalid
      */
     public static String convertInfixToPostfix(String infix) throws InvalidNotationFormatException{
-        NotationStack<Character> stack = new NotationStack<>(infix.length());
-        NotationQueue<Character> queue = new NotationQueue<>(infix.length());
+        NotationStack<String> notationStack = new NotationStack<String>(5);
+        NotationQueue<String > notationQueue = new NotationQueue<String>(5);
 
-        for(int i = 0; i < infix.length(); i++){
-            char nextChar = infix.charAt(i);
-            if(Character.isLetterOrDigit(nextChar)) queue.enqueue(nextChar);   // If letter or number is found
-            else if(nextChar == '(') stack.push(nextChar);  // If opening parentheses is found
-            else if(nextChar == ')'){   // If closing parentheses is found
-                while(!stack.isEmpty() && stack.top() != '('){
-                    queue.enqueue(stack.pop());
-                }
-                if(stack.isEmpty()) throw new InvalidNotationFormatException();
-                stack.pop();
+        for (int i = 0; i < infix.length(); i++)
+        {
+            char conToPostFix = infix.charAt(i);
+
+            if (Character.isDigit(conToPostFix))
+            {
+                notationQueue.enqueue(Character.toString(conToPostFix));
             }
-            else{   // If we get something like "*/" or "+*"
-                while(!stack.isEmpty() && precedenceOf(nextChar) <= precedenceOf(stack.top())){
-                    queue.enqueue(stack.pop());
-                }
-                stack.push(nextChar);
+            else if (conToPostFix == '(' )
+            {
+                notationStack.push(Character.toString(conToPostFix));
             }
+            else if (conToPostFix == ')')
+            {
+                char peekStack = notationStack.pop().charAt(0);
+                while (peekStack != '(')
+                {
+                    try {
+                        notationQueue.enqueue(Character.toString(peekStack));
+                    }catch (StackUnderflowException stackUnderflow) {
+                        stackUnderflow.printStackTrace();
+                    }
+
+                    if (notationStack.isEmpty())
+                    {
+                        throw new InvalidNotationFormatException();
+                    }
+                    else {
+                        peekStack = notationStack.pop().charAt(0);
+                    }
+                }
+            }
+            else if (allCharacters.indexOf(conToPostFix) >= 0)
+            {
+                while (!notationStack.isEmpty() &&
+                        characterFind(notationStack.top().charAt(0)) >= characterFind(conToPostFix))
+                {
+                    notationQueue.enqueue(notationStack.pop());
+                }
+                notationStack.push(Character.toString(conToPostFix));
+            }
+
+            else if (conToPostFix == ' ') {
+                continue;
+            }
+
         }
-        while(!stack.isEmpty()){
-            if(stack.top() == '(') throw new InvalidNotationFormatException();
-            queue.enqueue(stack.pop());
-//            postfix.append(stack.pop());
-        }
-        if(!stack.isEmpty()) throw new InvalidNotationFormatException();
-        return queue.toString();/*postfix.toString*/
+        return notationQueue.toString();
     }
+//        NotationStack<Character> stack = new NotationStack<>(infix.length());
+//        StringBuilder postfix = new StringBuilder();
+//
+//        for(int i = 0; i < infix.length(); i++){
+//            char nextChar = infix.charAt(i);
+//            if(Character.isLetterOrDigit(nextChar)) postfix.append(nextChar);   // If letter or number is found
+//            else if(nextChar == '(') stack.push(nextChar);  // If opening parentheses is found
+//            else if(nextChar == ')'){   // If closing parentheses is found
+//                while(!stack.isEmpty() && stack.top() != '('){
+//                    postfix.append(stack.pop());
+//                }
+//            }
+//            else{   // If we get something like "*/" or "+*"
+//                while(!stack.isEmpty() && precedenceOf(nextChar) <= precedenceOf(stack.top())){
+//                    postfix.append(stack.pop());
+//                }
+//                stack.push(nextChar);
+//            }
+//        }
+//        while(!stack.isEmpty()){
+//            if(stack.top() == '(') throw new InvalidNotationFormatException();
+//            postfix.append(stack.pop());
+//        }
+//        if(!stack.isEmpty()) throw new InvalidNotationFormatException();
+//        return postfix.toString();
 
     /**
      * Determines the precedence of operators in postfix, infix, and prefix expressions
