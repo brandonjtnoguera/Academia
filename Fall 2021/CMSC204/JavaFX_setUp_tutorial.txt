@@ -1,2 +1,13 @@
 https://stackoverflow.com/questions/51478675/error-javafx-runtime-components-are-missing-and-are-required-to-run-this-appli
 https://stackoverflow.com/questions/52682195/how-to-get-javafx-and-java-11-working-in-intellij-idea
+
+VM OPTIONS FOR MAC
+--module-path
+/Users/brandontenorio/javafx-sdk-15.0.1/lib
+--add-modules=javafx.controls
+
+
+VM OPTIONS FOR WINDOWS
+--module-path
+D:\JavaFX\javafx-sdk-16\lib
+--add-modules=javafx.controls
