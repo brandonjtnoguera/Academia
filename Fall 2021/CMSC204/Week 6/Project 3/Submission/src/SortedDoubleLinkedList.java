@@ -10,7 +10,7 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T>{
     }
 
     public SortedDoubleLinkedList<T> add(T data){
-        Node<T> newNode = new Node<T>(data);
+        Node newNode = new Node(data);
         // If there is no list, make a new list
         if(head == null && tail == null) {
             head = newNode;
@@ -28,7 +28,7 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T>{
         }
 
         // Add newNode somewhere in between the head and the tail
-        Node<T> current = head;
+        Node current = head;
         while(current.next != null){
             if (comparator.compare(newNode.data, current.data) > 0 && comparator.compare(newNode.data, current.next.data) < 0) {
                 newNode.next = current.next;

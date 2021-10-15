@@ -1,16 +1,20 @@
 import java.util.*;
 
 public class BasicDoubleLinkedList<T> implements Iterable<T> {
-    protected Node<T> head;
-    protected Node<T> tail;
+    protected Node head;
+    protected Node tail;
     protected int size = 0;
+
+    public BasicDoubleLinkedList(){
+        head = tail = null;
+    }
 
     public boolean isEmpty(){
         return tail == null && head == null;
     }
 
     public BasicDoubleLinkedList<T> addToEnd(T data){
-        Node<T> newNode = new Node<>(data);
+        Node newNode = new Node(data);
         // If there's no list, make a list
         if(isEmpty()){
             head = newNode;
@@ -26,7 +30,7 @@ public class BasicDoubleLinkedList<T> implements Iterable<T> {
     }
 
     public BasicDoubleLinkedList<T> addToFront(T data){
-        Node<T> newNode = new Node<>(data);
+        Node newNode = new Node(data);
         if(isEmpty()){
             head = newNode;
             tail = newNode;
@@ -49,12 +53,70 @@ public class BasicDoubleLinkedList<T> implements Iterable<T> {
     }
 
     public ListIterator<T> iterator() throws UnsupportedOperationException, NoSuchElementException {
-        return new IteratorBoi<>(head);
+        // Anonymous class!!!!!!!
+        return new ListIterator<T>() {
+            Node current = head;
+
+            @Override
+            public boolean hasNext(){
+                return current != null;
+            }
+
+            @Override
+            public T next(){
+                if(hasNext()){
+                    T data = current.data;
+                    current = current.next;
+                    return data;
+                }
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return current != null;
+            }
+
+            @Override
+            public T previous() {
+                if(hasNext()){
+                    T data = current.data;
+                    current = current.prev;
+                    return data;
+                }
+                return null;
+            }
+
+            @Override
+            public int nextIndex() {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public int previousIndex() {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public void set(T t) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public void add(T t) {
+                throw new UnsupportedOperationException();
+            }
+        };
     }
 
     public BasicDoubleLinkedList<T> remove(T targetData, Comparator<T> comparator){
-        Node<T> current = head;
-        Node<T> removedNode = null;
+        Node current = head;
+        Node removedNode = null;
         while(current.next != null){
             // TODO ASK PROF IF THIS IS OK
             if(comparator.compare(targetData, current.data) == 0){
@@ -84,7 +146,7 @@ public class BasicDoubleLinkedList<T> implements Iterable<T> {
     }
 
     public ArrayList<T> toArrayList(){
-        Node<T> current = head;
+        Node current = head;
         ArrayList<T> list = new ArrayList<>();
         while(current.next != null){
             list.add(current.data);
@@ -97,77 +159,14 @@ public class BasicDoubleLinkedList<T> implements Iterable<T> {
         return size;
     }
 
-    public class Node<T>{
+    public class Node{
         protected T data;
-        protected Node<T> next;
-        protected Node<T> prev;
+        protected Node next;
+        protected Node prev;
 
         public Node(T data){
             this.data = data;
-            next = null;
-            prev = null;
-        }
-
-        public Node(T data, Node<T> next, Node<T> prev){
-            this.next = next;
-            this.prev = prev;
-            this.data = data;
-        }
-    }
-    public class IteratorBoi<T> implements ListIterator<T> {
-        private Node<T> current;
-
-        public IteratorBoi(Node<T> current){
-            this.current = current;
-        }
-
-        @Override
-        public boolean hasNext() {
-            // if list isn't empty, and we're not at the tail, thn there's a next value
-            return !isEmpty() && current != tail;
-        }
-
-        @Override
-        public T next() throws NoSuchElementException{
-            //if(!hasNext()) throw new NoSuchElementException();
-            T data = current.data;
-            current = current.next;
-            return data;
-        }
-        @Override
-        public boolean hasPrevious() {
-            return !isEmpty() && current != head;
-        }
-        @Override
-        public T previous() throws NoSuchElementException{
-            //if(!hasPrevious()) throw new NoSuchElementException();
-            T data = current.data;
-            current = current.prev;
-            return data;
-        }
-        @Override
-        public int nextIndex() {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public int previousIndex() {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void set(T t) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void add(T t) {
-            throw new UnsupportedOperationException();
+            next = prev =  null;
         }
     }
 }
