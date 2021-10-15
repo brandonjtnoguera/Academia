@@ -14,6 +14,7 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T>{
         // If there is no list, make a new list
         if(head == null && tail == null) {
             head = newNode;
+            tail = newNode;
             size++;
             return this;
         }
@@ -23,6 +24,15 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T>{
             head.prev = newNode;
             newNode.next = head;
             head = newNode;
+            size++;
+            return this;
+        }
+
+        // Add newNode after tail if that's where it belongs
+        if(comparator.compare(newNode.data, tail.data) > 0){
+            tail.next = newNode;
+            newNode.prev = tail;
+            tail = newNode;
             size++;
             return this;
         }
@@ -41,14 +51,6 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T>{
             current = current.next;
         }
 
-        // Add newNode after tail if that's where it belongs
-        if(comparator.compare(newNode.data, tail.data) > 0){
-            tail.next = newNode;
-            newNode.prev = tail;
-            tail = newNode;
-            size++;
-            return this;
-        }
         return this;
     }
 
@@ -57,7 +59,7 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T>{
         throw new UnsupportedOperationException("Invalid operation for sorted list");
     }
 
-    public BasicDoubleLinkedList<T> AddToBack(T data) throws UnsupportedOperationException{
+    public BasicDoubleLinkedList<T> addToFront(T data) throws UnsupportedOperationException{
         throw new UnsupportedOperationException("Invalid operation for sorted list");
     }
 
