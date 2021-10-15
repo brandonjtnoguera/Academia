@@ -74,7 +74,7 @@ public class BasicDoubleLinkedList<T> implements Iterable<T> {
             size--;
             return this;
         }
-        
+
         Node current = head;
         while(current.next != null){
             if(comparator.compare(current.next.data, targetData) == 0){
