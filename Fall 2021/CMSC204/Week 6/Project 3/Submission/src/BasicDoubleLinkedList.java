@@ -61,6 +61,7 @@ public class BasicDoubleLinkedList<T> implements Iterable<T> {
     }
 
     public BasicDoubleLinkedList<T> remove(T targetData, Comparator<T> comparator){
+        // If data is at head
         if(comparator.compare(head.data, targetData) == 0){
             head = head.next;
             head.prev = null;
@@ -68,6 +69,7 @@ public class BasicDoubleLinkedList<T> implements Iterable<T> {
             return this;
         }
 
+        // If data is at tail
         else if(comparator.compare(tail.data, targetData) == 0){
             tail = tail.prev;
             tail.next = null;
@@ -75,29 +77,54 @@ public class BasicDoubleLinkedList<T> implements Iterable<T> {
             return this;
         }
 
-        Node current = head;
-        while(current.next != null){
-            if(comparator.compare(current.next.data, targetData) == 0){
-                current.next = current.next.next;
-                current.next.prev = current;
+        // If data is between head and tail (not inclusive, hence why we're starting at head.next)
+        else{
+            Node current = head.next;
+            while(current != null){
+                if(comparator.compare(current.data, targetData) == 0){
+                    current.prev.next = current.next;
+                    current.next.prev = current.prev;
+                    size--;
+                    return this;
+                }
+                current = current.next;
             }
-            current = current.next;
         }
-        size--;
-        return this;
+        // If data was not found
+        throw new NoSuchElementException("The data you're trying to remove isn't on this list");
     }
 
-    public T retrieveFirstElement(){
-        if(head == null) return null;
+    public T retrieveFirstElement() throws NoSuchElementException{
+        // If there is no head throw an exception
+        if(head == null) throw new NoSuchElementException();
+
         T data = head.data;
+
+        // If there is only one element in the list
+        if(thereIsOnlyOneElementInTheList()){
+            head = tail = null;
+            return data;
+        }
+
+        // If there are at least 2 elements
         head = head.next;
         head.prev = null;
         return data;
     }
 
-    public T retrieveLastElement(){
-        if(tail == null) return null;
+    public T retrieveLastElement() throws NoSuchElementException{
+        // If there is no tail return null
+        if(tail == null) throw new NoSuchElementException();
+
         T data = tail.data;
+
+        // If there is only one element in the list
+        if(thereIsOnlyOneElementInTheList()){
+            head = tail = null;
+            return data;
+        }
+
+        // If there are at least 2 elements in the list
         tail = tail.prev;
         tail.next = null;
         return data;
@@ -115,6 +142,14 @@ public class BasicDoubleLinkedList<T> implements Iterable<T> {
 
     public int getSize() {
         return size;
+    }
+
+    public void clear(){
+        head = tail = null;
+    }
+
+    public boolean thereIsOnlyOneElementInTheList(){
+        return head.prev == null && head.next == null && tail.prev == null && tail.next == null;
     }
 
     public class Node{
@@ -135,7 +170,7 @@ public class BasicDoubleLinkedList<T> implements Iterable<T> {
     }
     public class LinkedListIterator implements ListIterator<T>{
             Node current = head;
-            Node lastCurrent;
+            Node beforeCurrent;
 
             @Override
             public boolean hasNext(){
@@ -143,24 +178,34 @@ public class BasicDoubleLinkedList<T> implements Iterable<T> {
         }
 
             @Override
-            public T next(){
+            public T next() throws NoSuchElementException{
                 if(!hasNext()) throw new NoSuchElementException();
-                lastCurrent = current;
+                T data;
+                beforeCurrent = current;
                 current = current.next;
-                return lastCurrent.data;
+                data = beforeCurrent.data;
+                return data;
         }
 
             @Override
             public boolean hasPrevious() {
-                return lastCurrent != null;
+                if(thereIsOnlyOneElementInTheList() && current != null) return true;
+                else return beforeCurrent != null;
         }
 
             @Override
             public T previous() throws NoSuchElementException{
-                if (!hasPrevious()) throw new NoSuchElementException();
-                current = lastCurrent;
-                lastCurrent = lastCurrent.prev;
-                return current.data;
+                if(!hasPrevious()) throw new NoSuchElementException();
+                T data;
+              if(thereIsOnlyOneElementInTheList()){
+                   data = current.data;
+                   current = beforeCurrent;
+                   return data;
+                }
+                current = beforeCurrent;
+                beforeCurrent = beforeCurrent.prev;
+                data = current.data;
+                return data;
 
         }
 
