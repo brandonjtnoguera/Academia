@@ -1,3 +1,7 @@
+/**
+ * @author Brandon Tenorio
+ */
+
 import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -255,7 +259,7 @@ public class BasicDoubleLinkedLIstStudentTest {
         // I want the class to know when the list is not empty after having ben empty, and then restart the iterator but idk how to do that
         // The farthest i got on my pseudocode is:
         // After any removals, if the list is empty, reset the iterator. After the list becomes not empty, set the iterator to point at the current list's head
-        // No clue how to do that tho 
+        // No clue how to do that tho
         iterator = soloNode.iterator();
         assertEquals("2", iterator.next());
     }
