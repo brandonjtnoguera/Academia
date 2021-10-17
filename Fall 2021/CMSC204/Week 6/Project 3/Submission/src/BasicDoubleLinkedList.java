@@ -100,8 +100,11 @@ public class BasicDoubleLinkedList<T> implements Iterable<T> {
      * @throws NoSuchElementException thrown if targetData is not in this list
      */
     public BasicDoubleLinkedList<T> remove(T targetData, Comparator<T> comparator) throws NoSuchElementException{
+        // If list is empty you can't remove anything from it
+        if(isEmpty()) throw new NoSuchElementException("This list is empty");
+
         // If there is only one element in the list
-        if(thereIsOnlyOneElementInTheList() && comparator.compare(head.data, targetData) == 0){
+        else if(thereIsOnlyOneElementInTheList() && comparator.compare(head.data, targetData) == 0){
             head = tail = null;
             size--;
             return this;
