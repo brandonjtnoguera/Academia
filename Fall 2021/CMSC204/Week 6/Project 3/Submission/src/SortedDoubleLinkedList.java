@@ -40,7 +40,7 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T>{
         // Add newNode somewhere in between the head and the tail
         Node current = head;
         while(current.next != null){
-            if (comparator.compare(newNode.data, current.data) > 0 && comparator.compare(newNode.data, current.next.data) < 0) {
+            if (comparator.compare(newNode.data, current.data) >= 0 && comparator.compare(newNode.data, current.next.data) <= 0) {
                 newNode.next = current.next;
                 newNode.prev = current;
                 current.next.prev = newNode;

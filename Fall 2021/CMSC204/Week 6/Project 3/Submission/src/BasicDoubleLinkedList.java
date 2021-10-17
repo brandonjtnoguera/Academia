@@ -61,8 +61,15 @@ public class BasicDoubleLinkedList<T> implements Iterable<T> {
     }
 
     public BasicDoubleLinkedList<T> remove(T targetData, Comparator<T> comparator){
+        // If there is only one element in the list
+        if(thereIsOnlyOneElementInTheList() && comparator.compare(head.data, targetData) == 0){
+            head = tail = null;
+            size--;
+            return this;
+        }
+
         // If data is at head
-        if(comparator.compare(head.data, targetData) == 0){
+        else if(comparator.compare(head.data, targetData) == 0){
             head = head.next;
             head.prev = null;
             size--;
@@ -189,19 +196,13 @@ public class BasicDoubleLinkedList<T> implements Iterable<T> {
 
             @Override
             public boolean hasPrevious() {
-                if(thereIsOnlyOneElementInTheList() && current != null) return true;
-                else return beforeCurrent != null;
+                return beforeCurrent != null;
         }
 
             @Override
             public T previous() throws NoSuchElementException{
                 if(!hasPrevious()) throw new NoSuchElementException();
                 T data;
-              if(thereIsOnlyOneElementInTheList()){
-                   data = current.data;
-                   current = beforeCurrent;
-                   return data;
-                }
                 current = beforeCurrent;
                 beforeCurrent = beforeCurrent.prev;
                 data = current.data;
