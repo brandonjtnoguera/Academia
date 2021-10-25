@@ -97,10 +97,14 @@ public class BasicDoubleLinkedList<T> implements Iterable<T> {
      * @param targetData the data of the element to be removed
      * @param comparator instance of Comparator<T> used to find the element with the targetData
      * @return a reference to this instance of BasicDoubleLinkedList
+     * @throws NoSuchElementException thrown if targetData is not in this list
      */
-    public BasicDoubleLinkedList<T> remove(T targetData, Comparator<T> comparator){
+    public BasicDoubleLinkedList<T> remove(T targetData, Comparator<T> comparator) throws NoSuchElementException{
+        // If list is empty you can't remove anything from it
+        if(isEmpty()) throw new NoSuchElementException("This list is empty");
+
         // If there is only one element in the list
-        if(thereIsOnlyOneElementInTheList() && comparator.compare(head.data, targetData) == 0){
+        else if(thereIsOnlyOneElementInTheList() && comparator.compare(head.data, targetData) == 0){
             head = tail = null;
             size--;
             return this;
@@ -216,7 +220,7 @@ public class BasicDoubleLinkedList<T> implements Iterable<T> {
 
     /**
      * Checks to see if there is only one element in this list
-     * @return
+     * @return true if there is only one element in this list
      */
     public boolean thereIsOnlyOneElementInTheList(){
         return head.prev == null && head.next == null && tail.prev == null && tail.next == null;

@@ -263,4 +263,11 @@ public class BasicDoubleLinkedLIstStudentTest {
         iterator = soloNode.iterator();
         assertEquals("2", iterator.next());
     }
+
+    @Test (expected = NoSuchElementException.class)
+    public void testRemoveOnEmptyList(){
+        BasicDoubleLinkedList<String> emptyList = new BasicDoubleLinkedList<>();
+
+        emptyList.remove("1", comparator);
+    }
 }
