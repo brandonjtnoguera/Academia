@@ -1,5 +1,5 @@
 /**
- * Class represents a Course in the hashtable. A course has a unique CRN, an amount of credits, a room number, and an instructor associated with it
+ * Class represents a Course in the hashtable. A course has a unique CRN, a classID (such as CMSC204), an amount of credits, a room number, and an instructor associated with it
  * @author Brandon Tenorio
  */
 public class CourseDBElement {
