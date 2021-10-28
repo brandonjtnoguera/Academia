@@ -1,4 +1,5 @@
 /**
+ * Class represents a Course in the hashtable. A course has a unique CRN, an amount of credits, a room number, and an instructor associated with it
  * @author Brandon Tenorio
  */
 public class CourseDBElement {
