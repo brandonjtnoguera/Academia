@@ -58,9 +58,14 @@ public class CourseDBStructure implements CourseDBStructureInterface{
         int index = getHashIndex(tempCDBE);
         LinkedList<CourseDBElement> list = hashTable[index];
 
-        // Lambda expression:
-        // It returns any CDBE that is equal to the given CRN. If it doesn't find a CDBE with the given CRN, it throws an IOException
-        return list.stream().filter(courseDBElement -> courseDBElement.getCRN() == CRN).findAny().orElseThrow(IOException::new);
+        // .stream() returns sequential stream of the linked list of CDB elements
+        // .filter() filters all CDB elements whose CRN = the CRN passed to this method
+        // .findAny() finds any CDB elements with the given CRN
+        // .orElseThrow() throws an exception if no matching CDB element was found
+        return list.stream()
+                .filter(courseDBElement -> courseDBElement.getCRN() == CRN)
+                .findAny()
+                .orElseThrow(IOException::new);
     }
 
     /**
