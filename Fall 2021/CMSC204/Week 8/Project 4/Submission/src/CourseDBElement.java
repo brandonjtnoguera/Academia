@@ -16,6 +16,14 @@ public class CourseDBElement {
         this.instructorName = instructorName;
     }
 
+    public CourseDBElement() {
+        courseID = null;
+        CRN = 0;
+        credits = 0;
+        roomNumber = null;
+        instructorName = null;
+    }
+
     public String getCourseID() {
         return courseID;
     }
