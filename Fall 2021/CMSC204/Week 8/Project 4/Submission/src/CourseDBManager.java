@@ -113,7 +113,7 @@ public class CourseDBManager implements CourseDBManagerInterface{
         // .map() returns CDB elements as String objects
         // .collect() adds those objects to the list
         listOfCoursesAsStringObjectsInArrayList = (ArrayList<String>) listOfCoursesInArrayList.stream()
-                .map(s -> s.toString())
+                .map(CourseDBElement::toString)
                 .collect(Collectors.toList());
         return listOfCoursesAsStringObjectsInArrayList;
     }

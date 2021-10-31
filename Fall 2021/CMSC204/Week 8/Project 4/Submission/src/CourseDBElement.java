@@ -11,10 +11,11 @@ public class CourseDBElement implements Comparable{
     String instructorName;
 
     public CourseDBElement(String courseID, int CRN, int credits, String roomNumber, String instructorName) throws InvalidCreditAmountException, InvalidCRNException{
-        if(!courseID.startsWith("CMSC")) throw new InvalidCourseIDException();
+        if(!courseID.startsWith("CMSC") && !courseID.startsWith("cmsc")) throw new InvalidCourseIDException();
         else if (credits < 1 || credits > 4) throw new InvalidCreditAmountException();
         else if(CRN < 0 || String.valueOf(CRN).length() != 5) throw new InvalidCRNException();
-        else if(!roomNumber.equals("Distance-Learning") && !Character.isDigit(roomNumber.charAt(2)))
+        else if(!roomNumber.equals("Distance-Learning") && !Character.isDigit(roomNumber.charAt(2))) throw new InvalidRoomNumberException();
+
         this.courseID = courseID;
         this.CRN = CRN;
         this.credits = credits;
