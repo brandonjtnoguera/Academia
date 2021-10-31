@@ -49,10 +49,51 @@ public class CourseDBManager implements CourseDBManagerInterface{
      * @param input file to be read
      */
     @Override
-    public void readFile(File input) throws FileNotFoundException {
+    public void readFile(File input) throws FileNotFoundException, InvalidCourseFormatException {
         Scanner reader = new Scanner(input);
 
-        // TODO LOL
+        /*
+        * course[0] = courseID
+        * course[1] = CRN
+        * course[2] = credits
+        * course[3] = room number
+        * from course[4] to course.length = instructor name
+        * name = instructor name
+        * */
+        while(reader.hasNext()){
+            StringBuilder line = new StringBuilder();
+            StringBuilder name = new StringBuilder();
+            String[] course;
+
+            line.append(reader.nextLine());
+
+            while(line.toString().startsWith("#")){
+                line.setLength(0);
+                line.append(reader.nextLine());
+            }
+            if(line.toString().equals("")) continue;
+            course = line.toString().split("\\s+");
+
+            boolean containsLetters = false;
+            for(int i = 0; i < course[1].length(); i++){
+                if(Character.isLetter(course[1].charAt(i))) containsLetters = true;
+            }
+
+            if(!course[0].startsWith("CMSC")) throw new InvalidCourseFormatException("Invalid or missing course ID");
+            else if(course[1].length() !=5 || containsLetters) throw new InvalidCourseFormatException("Invalid or missing course CRN");
+            else if(!Character.isDigit(course[2].charAt(0))) throw new InvalidCourseFormatException("Invalid or missing course credit amount");
+            else if(!course[3].equals("Distance-Learning") && !Character.isDigit(course[3].charAt(2))) throw new InvalidCourseFormatException("Invalid or missing course room number");
+
+            for(int i = 4; i < course.length; i++){
+                name.append(course[i]).append(" ");
+            }
+            name.deleteCharAt(name.length() - 1);
+
+            CourseDBElement newCourse = new CourseDBElement(course[0],Integer.parseInt(course[1]), Integer.parseInt(course[2]), course[3], name.toString());
+
+            courseDBStructure.add(newCourse);
+
+        }
     }
 
     /**
@@ -64,7 +105,7 @@ public class CourseDBManager implements CourseDBManagerInterface{
         ArrayList<String> listOfCoursesAsStringObjectsInArrayList;
 
         for(int i = 0; i < courseDBStructure.getTableSize(); i++){
-            if(courseDBStructure.hashTable != null){
+            if(courseDBStructure.hashTable[i] != null){
                 listOfCoursesInArrayList.addAll(courseDBStructure.hashTable[i]);
             }
         }
@@ -72,7 +113,7 @@ public class CourseDBManager implements CourseDBManagerInterface{
         // .map() returns CDB elements as String objects
         // .collect() adds those objects to the list
         listOfCoursesAsStringObjectsInArrayList = (ArrayList<String>) listOfCoursesInArrayList.stream()
-                .map(CourseDBElement::toString)
+                .map(s -> s.toString())
                 .collect(Collectors.toList());
         return listOfCoursesAsStringObjectsInArrayList;
     }
