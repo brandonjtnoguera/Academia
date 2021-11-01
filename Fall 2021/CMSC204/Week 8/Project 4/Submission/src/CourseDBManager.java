@@ -71,6 +71,7 @@ public class CourseDBManager implements CourseDBManagerInterface{
                 line.setLength(0);
                 line.append(reader.nextLine());
             }
+
             if(line.toString().equals("")) continue;
             course = line.toString().split("\\s+");
 
