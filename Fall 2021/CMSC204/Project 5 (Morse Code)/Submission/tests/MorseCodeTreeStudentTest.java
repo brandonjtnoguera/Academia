@@ -10,55 +10,30 @@ import static org.junit.Assert.*;
 
 public class MorseCodeTreeStudentTest {
 
+    MorseCodeTree morseCodeTree = new MorseCodeTree();
+
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
     }
 
     @After
-    public void tearDown() throws Exception {
-    }
-
-    @Test
-    public void getRoot() {
-    }
-
-    @Test
-    public void setRoot() {
-    }
-
-    @Test
-    public void insert() {
-    }
-
-    @Test
-    public void addNode() {
+    public void tearDown() {
     }
 
     @Test
     public void fetch() {
-    }
-
-    @Test
-    public void fetchNode() {
-    }
-
-    @Test
-    public void buildTree() {
+        assertEquals("b", morseCodeTree.fetch("-..."));
+        assertEquals("r", morseCodeTree.fetch(".-."));
+        assertEquals("a", morseCodeTree.fetch(".-"));
+        assertEquals("n", morseCodeTree.fetch("-."));
+        assertEquals("d", morseCodeTree.fetch("-.."));
+        assertEquals("o", morseCodeTree.fetch("---"));
+        assertEquals("n", morseCodeTree.fetch("-."));
     }
 
     @Test
     public void toArrayList() {
-    }
-
-    @Test
-    public void LNRoutputTraversal() {
-    }
-
-    @Test
-    public void delete() {
-    }
-
-    @Test
-    public void update() {
+        assertEquals("[h, s, v, i, f, u, e, l, r, a, p, w, j, , b, d, x, n, c, k, y, t, z, g, q, m, o]",
+                morseCodeTree.toArrayList().toString());
     }
 }
