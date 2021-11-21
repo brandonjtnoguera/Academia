@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * @author Brnadon Tenorio
+ * @author Brandon Tenorio
  */
 
 public class MorseCodeTreeStudentTest {

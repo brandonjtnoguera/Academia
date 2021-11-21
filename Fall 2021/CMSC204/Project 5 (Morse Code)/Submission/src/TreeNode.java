@@ -1,7 +1,7 @@
 
 /**
  * This class represents a node in a tree
- * @author: Brandon Tenorio
+ * @author  Brandon Tenorio
  */
 public class TreeNode<T> {
     protected T data;
