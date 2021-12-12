@@ -1,78 +1,63 @@
-import java.util.*;
 /**
  * @author Brandon Tenorio
  */
-public class Road implements Comparable<Road>{
-    //todo
-    protected Town source;
-    protected Town destination;
-    protected int weight;
-    protected String roadName;
+public class Road implements Comparable<Road> {
+    private Town source, destination;
+    private int distance;
+    private String roadName;
+    
 
     public Road(Town source, Town destination, int weight, String roadName) {
         this.source = source;
         this.destination = destination;
-        this.weight = weight;
+        this.distance = weight;
         this.roadName = roadName;
     }
 
+    
     public Road(Town source, Town destination, String roadName) {
         this.source = source;
         this.destination = destination;
+        this.distance = 1;
         this.roadName = roadName;
-        weight = 1;
+    }
+    
+    @Override
+    public int compareTo(Road r) {
+        return this.roadName.compareTo(r.roadName);
     }
 
     public boolean contains(Town town) {
-        return this.source.equals(town) || this.destination.equals(town);
+        return source.getName().equals(town.getName()) || destination.getName().equals(town.getName());
+    }
+
+
+    public boolean equals(Object road) {
+        boolean sameSource = source.equals(((Road) road).source) || source.equals(((Road) road).destination);
+        boolean sameDestination = destination.equals(((Road) road).source) || destination.equals(((Road) road).destination);
+
+        return road == this || (sameSource && sameDestination);
     }
 
     @Override
     public String toString() {
-        return this.roadName;
-    }
-
-    public String getName() {
-        return roadName;
-    }
-
-    public Town getDestination() {
-        return destination;
+        return source.getName() + " via " + roadName + " to " + destination.getName() + " " + distance
+                + " mi";
     }
 
     public Town getSource() {
         return source;
     }
 
-    public int compareTo(Road road) {
-        if(this.roadName.equalsIgnoreCase(road.roadName)) return 0;
-        else return -1;
+    public Town getDestination() {
+        return destination;
     }
 
-    public int getWeight() {
-        return weight;
+    public int getDistance() {
+        return distance;
     }
 
-    public boolean equals(Object road) {
-        boolean sameSource = this.source.equals(((Road) road).source) || this.source.equals(((Road) road).destination);
-        boolean sameDestination = this.destination.equals(((Road) road).source) || this.destination.equals(((Road) road).destination);
-
-        return road == this || (sameSource && sameDestination);
-    }
-
-    public void setSource(Town source) {
-        this.source = source;
-    }
-
-    public void setDestination(Town destination) {
-        this.destination = destination;
-    }
-
-    public void setName(String roadName) {
-        this.roadName = roadName;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
+    String getName() {
+        return roadName;
     }
 }

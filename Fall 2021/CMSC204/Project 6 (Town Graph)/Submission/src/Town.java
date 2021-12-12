@@ -1,43 +1,36 @@
-import java.util.*;
-
 /**
- * @author Brandon Tenorio
+ * @author Brandon TYenorio
  */
 public class Town implements Comparable<Town>{
-    protected String name = "";
-    protected Set<Town> towns = new java.util.HashSet<>();
-    protected int weight = Integer.MAX_VALUE;
-    protected Town previous = null;
+    private final String name;
 
-    public Town(String townName) {
-        this.name = townName;
+    public Town(String name){
+        this.name = name;
     }
 
-    public Town(Town templateTown) {
-        this.name = templateTown.name;
-        this.weight = templateTown.weight;
-        this.towns = templateTown.towns;
-        this.previous = templateTown.previous;
+    public Town(Town templateTown){
+        this.name=templateTown.name;
     }
 
-    public String getName() {
-        return this.name;
+    @Override
+    public int compareTo(Town t) {
+        return this.name.compareTo(t.name);
     }
 
-    public int compareTo(Town town) {
-        return this.name.compareTo(town.name);
-    }
-
-    public String toString() {
-        return this.getName();
-    }
-
-    public int hashCode() {
-        return this.name.hashCode();
-    }
-
+    @Override
     public boolean equals(Object town) {
         return town == this || this.name.equalsIgnoreCase(((Town) town).name);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    public String toString() {
+        return name;
+    }
 }
